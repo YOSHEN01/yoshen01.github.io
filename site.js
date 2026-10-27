@@ -4,7 +4,32 @@ const SITE = {
   nftUrl: "",   // NFTミントサイトのURL（空ならボタンは「準備中」）
   instagram: "https://www.instagram.com/yoshen_jp/",
   email: "yoshen.nft@gmail.com",
+  gaId: "",   // Google アナリティクスの測定ID（"G-" で始まる）。空のあいだは集計しない
 };
+
+// 閲覧数の集計（Google アナリティクス）。測定IDがあるときだけ読み込む
+// track("名前", {...}) で「押された数」なども記録する（IDが空なら何もしない）
+function track(name, params){ try { if (window.gtag) window.gtag("event", name, params || {}); } catch (e) {} }
+(function(){
+  if (!SITE.gaId || /^(localhost|127\.)/.test(location.hostname)) return;   // 手元の確認では数えない
+  const s = document.createElement("script"); s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(SITE.gaId);
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ window.dataLayer.push(arguments); };
+  window.gtag("js", new Date());
+  // QR コードなどに付けた ?ref=〇〇 を「どこから来たか」として記録する
+  const ref = new URLSearchParams(location.search).get("ref");
+  window.gtag("config", SITE.gaId, ref ? { campaign_source: ref, campaign_medium: "qr" } : {});
+  // メール・Instagram・外部リンクが押された数
+  document.addEventListener("click", e => {
+    const a = e.target.closest && e.target.closest("a[href]"); if (!a) return;
+    const h = a.getAttribute("href");
+    if (h.startsWith("mailto:")) track("contact_mail", { place: a.textContent.trim().slice(0, 40) });
+    else if (h.includes("instagram.com")) track("open_instagram", { place: a.textContent.trim().slice(0, 40) });
+    else if (/^https?:/.test(h) && !h.includes(location.hostname)) track("open_external", { url: h });
+  }, true);
+})();
 
 // デジタル作品（images/ に file.jpg と file_thumb.jpg を置く）
 const DIGITAL = [
@@ -480,6 +505,7 @@ addEventListener("resize", fitMark);
   }
   let entering = false;
   function enter(card){
+    track("ring_enter", { work: card.dataset.t || "" });
     if (entering) return; entering = true;
     const src = card.querySelector("img"), r = card.getBoundingClientRect();
     const ov = document.createElement("div"); ov.className = "enter"; ov.setAttribute("aria-hidden", "true");
@@ -777,6 +803,7 @@ if (scroller) (function(){
   }
   // 回しきったら: ゴーストが中心へ吸い込まれ、Staring Ghost Crew のロゴが渦の中心から広がって SGC ページへ
   function enter(){
+    track("ghost_vortex");
     entering = true; active = true;
     const full = new URL("images/sgc_crew_logo.jpg", document.baseURI).href;
     const ov = document.createElement("div"); ov.className = "vortex"; ov.setAttribute("aria-hidden", "true");
