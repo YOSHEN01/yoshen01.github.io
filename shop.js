@@ -2,7 +2,7 @@
 (function(){
 // ===== ここだけ書き換えればOK =====
 const SHOP = {
-  comingSoon: true,        // true のあいだは「準備中」だけを表示。開店するときは false に
+  comingSoon: false,       // true にすると「準備中」だけを表示（2026-10-28 開店）
   email: "yoshen.nft@gmail.com",
 };
 
