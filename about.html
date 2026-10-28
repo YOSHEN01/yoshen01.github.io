@@ -86,7 +86,23 @@
           <li style="border-color:var(--night-rule)">ショップやブランドとのコラボレーション</li>
           <li style="border-color:var(--night-rule)">壁面・看板・パッケージへの描画</li>
         </ul>
-        <p class="m" style="margin-top:20px">連絡はメールか、InstagramのDMで受けています。</p>
+        <form class="cf" id="contactForm" novalidate>
+          <p class="lbl">Form</p>
+          <fieldset class="cf-kind"><legend class="cf-l">ご相談の種類</legend>
+            <label><input type="radio" name="kind" value="原画の購入" checked><span>原画の購入</span></label>
+            <label><input type="radio" name="kind" value="データ・NFT"><span>データ・NFT</span></label>
+            <label><input type="radio" name="kind" value="似顔絵・ペット"><span>似顔絵・ペット</span></label>
+            <label><input type="radio" name="kind" value="ライブペイント"><span>ライブペイント</span></label>
+            <label><input type="radio" name="kind" value="コラボ・壁面"><span>コラボ・壁面</span></label>
+            <label><input type="radio" name="kind" value="その他"><span>その他</span></label>
+          </fieldset>
+          <label class="cf-f"><span class="cf-l">お名前</span><input name="name" autocomplete="name" required maxlength="100"></label>
+          <label class="cf-f"><span class="cf-l">メールアドレス</span><input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200"></label>
+          <label class="cf-f"><span class="cf-l">内容</span><textarea name="msg" rows="5" required maxlength="4000" placeholder="時期、大きさ、場所、ご予算など、わかる範囲で"></textarea></label>
+          <label class="cf-hp" aria-hidden="true">空欄のまま<input name="website" tabindex="-1" autocomplete="off"></label>
+          <div class="cf-go"><button class="pill" type="submit">Send</button><p class="cf-st m" id="cfStatus" role="status" aria-live="polite"></p></div>
+        </form>
+        <p class="m" style="margin-top:36px">メールや、InstagramのDMでも受けています。</p>
         <p style="margin-top:14px;font:800 clamp(20px,2.2vw,30px)/1.2 var(--disp);letter-spacing:-.03em;overflow-wrap:anywhere"><a class="maillink" href="mailto:yoshen.nft@gmail.com" data-cur="Mail">yoshen.nft@gmail.com</a></p>
         <div class="acts"><a class="pill" href="mailto:yoshen.nft@gmail.com">Write an email</a><a class="pill" href="https://www.instagram.com/yoshen_jp/" target="_blank" rel="noopener">Instagram ↗</a></div>
       </div>

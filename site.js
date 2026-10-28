@@ -5,6 +5,11 @@ const SITE = {
   instagram: "https://www.instagram.com/yoshen_jp/",
   email: "yoshen.nft@gmail.com",
   gaId: "G-MWZ3CS8L0F",   // Google アナリティクスの測定ID（YOSHEN: yoshen.nft@gmail.com）。空にすると集計しない
+  // 問い合わせフォームの送信先（YOSHEN の Google フォーム「YOSHEN お問い合わせ」）。回答はフォームの「回答」タブに届く
+  form: {
+    url: "https://docs.google.com/forms/d/e/1FAIpQLScvNt8dQxMisu9lAMoub-A_ZOVfZZDHM5NoeFosuOccO9dusg/formResponse",
+    name: "entry.1078685590", email: "entry.1103719726", kind: "entry.1037551354", msg: "entry.25227840",
+  },
 };
 
 // 閲覧数の集計（Google アナリティクス）。測定IDがあるときだけ読み込む
@@ -1010,5 +1015,32 @@ if (scroller) (function(){
     addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }, { passive: true });
     if ("ResizeObserver" in window) new ResizeObserver(size).observe(cv); else addEventListener("resize", size);
     size();
+  });
+})();
+
+// 問い合わせフォーム（About の Contact）。Google フォームへそのまま送る
+(function(){
+  const f = document.getElementById("contactForm"); if (!f) return;
+  const st = document.getElementById("cfStatus"), btn = f.querySelector("button[type=submit]");
+  const say = (t, ok) => { st.textContent = t; st.classList.toggle("ok", !!ok); };
+  f.addEventListener("input", e => { const l = e.target.closest(".cf-f"); if (l) l.classList.remove("bad"); });
+  f.addEventListener("submit", async e => {
+    e.preventDefault();
+    if (f.website.value) return;   // ロボット避け（人には見えない欄）
+    let bad = null;
+    ["name", "email", "msg"].forEach(k => { const el = f[k]; el.value = el.value.trim(); const ng = !el.value || (k === "email" && !el.checkValidity()); el.closest(".cf-f").classList.toggle("bad", ng); if (ng && !bad) bad = el; });
+    if (bad) { say(bad === f.email && f.email.value ? "メールアドレスの形を確かめてください。" : "未入力の欄があります。"); bad.focus(); return; }
+    const c = SITE.form, body = new URLSearchParams();
+    body.append(c.name, f.name.value); body.append(c.email, f.email.value);
+    body.append(c.kind, (f.querySelector("input[name=kind]:checked") || {}).value || ""); body.append(c.msg, f.msg.value);
+    btn.disabled = true; say("送信しています…");
+    try {
+      // Google フォームは結果を返さない（no-cors）。届いたかは通信が通ったかで判断する
+      await fetch(c.url, { method: "POST", mode: "no-cors", body });
+      f.classList.add("sent"); say("送信しました。ありがとうございます。返信はメールでお送りします。", true);
+      track("contact_submit", { kind: body.get(c.kind) });
+    } catch (err) {
+      btn.disabled = false; say("送信できませんでした。お手数ですが下のメールアドレスへお送りください。");
+    }
   });
 })();

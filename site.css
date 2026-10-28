@@ -253,6 +253,29 @@ a:hover .go i,.go:hover i{transform:translateX(6px)}
 .spec div{display:flex;justify-content:space-between;gap:16px;padding-block:12px;border-bottom:1px solid var(--night-rule);font-size:14px}
 .spec div span:first-child{color:var(--night-mute)}
 .band .acts{margin-top:28px}
+/* 問い合わせフォーム（送信先は YOSHEN の Google フォーム） */
+.cf{margin-top:48px;display:grid;gap:26px}
+.cf-l{display:block;font:500 12px/1.4 var(--disp);letter-spacing:.02em;text-transform:uppercase;color:var(--night-mute)}
+.cf-kind{margin:0;padding:0;border:0;display:flex;flex-wrap:wrap;gap:8px}
+.cf-kind legend{margin-bottom:12px;padding:0}
+.cf-kind label{position:relative;cursor:pointer}
+.cf-kind input{position:absolute;opacity:0;pointer-events:none}
+.cf-kind span{display:inline-flex;align-items:center;height:34px;padding:0 14px;border:1px solid var(--night-rule);border-radius:999px;font-size:13px;color:var(--night-mute);transition:background .3s,color .3s,border-color .3s}
+.cf-kind label:hover span{border-color:var(--night-mute);color:var(--night-ink)}
+.cf-kind input:checked+span{background:var(--night-ink);border-color:var(--night-ink);color:var(--night)}
+.cf-kind input:focus-visible+span{outline:2px solid var(--pink);outline-offset:3px}
+.cf-f input,.cf-f textarea{display:block;width:100%;margin-top:6px;padding:10px 0;border:0;border-bottom:1px solid var(--night-rule);border-radius:0;background:none;color:var(--night-ink);font:400 16px/1.6 var(--jp);transition:border-color .3s}
+.cf-f textarea{resize:vertical;min-height:120px}
+.cf-f input:focus,.cf-f textarea:focus{outline:none;border-bottom-color:var(--night-ink)}
+.cf-f textarea::placeholder{color:var(--night-mute);opacity:.6}
+.cf-f.bad input,.cf-f.bad textarea{border-bottom-color:var(--pink)}
+.cf-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.cf-go{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cf-go .pill[disabled]{opacity:.4;cursor:default}
+.cf-st{margin:0;font-size:13px}
+.cf-st.ok{color:var(--night-ink)}
+.cf-st.ok::before{content:"";display:inline-block;width:6px;height:6px;margin-right:8px;border-radius:50%;background:var(--pink);vertical-align:middle}
+.cf.sent .cf-kind,.cf.sent .cf-f{opacity:.35;pointer-events:none;transition:opacity .6s}
 .quote{grid-column:1/12;font:700 clamp(28px,4.2vw,68px)/1.4 var(--jp);letter-spacing:-.035em}
 @media (max-width:900px){ .band h2,.band .body,.quote{grid-column:1/13} }
 
