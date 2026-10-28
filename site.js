@@ -4,7 +4,7 @@ const SITE = {
   nftUrl: "",   // NFTミントサイトのURL（空ならボタンは「準備中」）
   instagram: "https://www.instagram.com/yoshen_jp/",
   email: "yoshen.nft@gmail.com",
-  gaId: "",   // Google アナリティクスの測定ID（"G-" で始まる）。空のあいだは集計しない
+  gaId: "G-MWZ3CS8L0F",   // Google アナリティクスの測定ID（YOSHEN: yoshen.nft@gmail.com）。空にすると集計しない
 };
 
 // 閲覧数の集計（Google アナリティクス）。測定IDがあるときだけ読み込む
